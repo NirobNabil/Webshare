@@ -22,10 +22,15 @@
       let idbox = document.querySelector('#id');
       let databox = document.querySelector('#data');
       // const peer = new Peer('receiver', { host: 'http://peerjstest11.herokuapp.com/peerjs/', port: 9000, path: '/' })
-      const peer = new Peer(id, { host: 'http://peerjstest11.herokuapp.com', port: port, path: '/peerjs' })
+      const peer = new Peer(id, { host: 'peerjstest11.herokuapp.com', port: port, path: '/peerjs' })
       window.peer = peer;
+
+      peer.on('error', (err) => {
+        console.log(err);
+      })
       idbox.textContent = id;
       peer.on('connection', (conn) => {
+        console.log("got connection")
         conn.on('data', (data) => {
           console.log(data);
           bodybox.textContent = data;

@@ -13,14 +13,17 @@ app.get('/port', (req, res, next) => {
 });
 app.get('/receive', (req,res,next) => res.sendFile(path.join(__dirname+'/../client/receiver.html')));
 app.get('/send', (req,res,next) => res.sendFile(path.join(__dirname+'/../client/sender.html')));
+app.get('/debug', (req,res,next) => res.send(JSON.stringify(clientOO)))
 const server = app.listen(process.env.PORT || 9000);
 
 const peerServer = ExpressPeerServer(server, {
   path: '/',
   allow_discovery: true,
-  expire_timeout: 500000
+  expire_timeout: 50000,
+  debug:1
 });
 
-peerServer.on('connection', (client) => { console.log(client) });
+var clientOO;
+peerServer.on('connection', (client) => { clientOO=client; console.log(client) });
 
 app.use('/peerjs', peerServer);

@@ -27,8 +27,12 @@
       let messagebox = document.querySelector('#message');
       let sendbutton = document.querySelector('#sendbutton');
       // const peer = new Peer('receiver', { host: 'http://peerjstest11.herokuapp.com/peerjs/', port: 9000, path: '/' })
-      const peer = new Peer(s_id, { host: 'http://peerjstest11.herokuapp.com', port: port, path: '/peerjs' })
+      const peer = new Peer(s_id, { host: 'peerjstest11.herokuapp.com', port: port, path: '/peerjs' })
       
+      peer.on('error', (err) => {
+        console.log(err);
+      })
+      console.log("after error");
       idbox.textContent = s_id;
       const conn = peer.connect(r_id)
       window.conn = conn;
@@ -36,6 +40,9 @@
       conn.on('open', () => {
         statusbox.textContent = "successfully connected with " + r_id;
         conn.send('hi!');
+      })
+      conn.on('error', (err) => {
+        console.log(err);
       })
 
       sendbutton.onclick = () => {
