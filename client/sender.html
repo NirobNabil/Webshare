@@ -8,7 +8,7 @@
   <input id="message" />
   <button id="sendbutton">send</button>
   <script>
-    var port, id, broker="http://localhost:9000";
+    var port, id, broker="http://peerjstest11.herokuapp.com";//="http://localhost:9000";
     const connectbutton = document.querySelector('#connectbutton');
     const r_id = document.querySelector('#r_id');
     const statusbox = document.querySelector('#status');
@@ -27,7 +27,7 @@
       let messagebox = document.querySelector('#message');
       let sendbutton = document.querySelector('#sendbutton');
       // const peer = new Peer('receiver', { host: 'http://peerjstest11.herokuapp.com/peerjs/', port: 9000, path: '/' })
-      const peer = new Peer(s_id, { host: 'localhost', port: port, path: '/peerjs' })
+      const peer = new Peer(s_id, { host: 'http://peerjstest11.herokuapp.com', port: port, path: '/peerjs' })
       
       idbox.textContent = s_id;
       const conn = peer.connect(r_id)

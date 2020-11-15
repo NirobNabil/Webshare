@@ -1,7 +1,10 @@
 const express = require('express');
 const { ExpressPeerServer } = require('peer');
+const cors = require('cors');
 const path = require('path');
 const app = express();
+
+app.use(cors());
 
 app.get('/', (req, res, next) => res.send('Hello world!'));
 app.get('/port', (req, res, next) => {
