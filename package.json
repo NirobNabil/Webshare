@@ -1,0 +1,24 @@
+{
+  "name": "webshare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NirobNabil/Webshare.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NirobNabil/Webshare/issues"
+  },
+  "homepage": "https://github.com/NirobNabil/Webshare#readme",
+  "dependencies": {
+    "expressjs": "^1.0.1",
+    "peer": "^0.5.3",
+    "peerjs": "^1.3.1"
+  }
+}
