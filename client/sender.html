@@ -1,0 +1,50 @@
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.16/peer.min.js"></script>
+</head>
+<body>
+  <h3>status <span id="status"></span></h3>
+  <h2>your id - <span id="id"></span></h1>
+  <input id="r_id" /> <button id="connectbutton">connect</button>
+  <input id="message" />
+  <button id="sendbutton">send</button>
+  <script>
+    var port, id, broker="http://localhost:9000";
+    const connectbutton = document.querySelector('#connectbutton');
+    const r_id = document.querySelector('#r_id');
+    const statusbox = document.querySelector('#status');
+    // fetch('http://peerjstest11.herokuapp.com/peerjs/')
+
+    async function initiateConnection(r_id, s_id) {
+      port = await fetch(broker+'/port').then(response => response.json())
+      port = port.port;
+      console.log(port);
+      if(s_id=="" || s_id===undefined) {
+        s_id = await fetch(broker+"/peerjs/key/id");
+        s_id = await s_id.text()
+      }
+      console.log(port + ' - ' + s_id);
+      let idbox = document.querySelector('#id');
+      let messagebox = document.querySelector('#message');
+      let sendbutton = document.querySelector('#sendbutton');
+      // const peer = new Peer('receiver', { host: 'http://peerjstest11.herokuapp.com/peerjs/', port: 9000, path: '/' })
+      const peer = new Peer(s_id, { host: 'localhost', port: port, path: '/peerjs' })
+      
+      idbox.textContent = s_id;
+      const conn = peer.connect(r_id)
+      window.conn = conn;
+      window.peer=peer;
+      conn.on('open', () => {
+        statusbox.textContent = "successfully connected with " + r_id;
+        conn.send('hi!');
+      })
+
+      sendbutton.onclick = () => {
+        conn.send(messagebox.value);
+        console.log("sent - " + messagebox.value);
+      }
+    }
+
+    connectbutton.onclick = () => initiateConnection(r_id.value)
+
+  </script>
+</body>

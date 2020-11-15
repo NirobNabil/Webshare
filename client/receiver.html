@@ -1,0 +1,40 @@
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.16/peer.min.js"></script>
+</head>
+<body>
+  <input id="input_id"/>
+  <button id="initiate">initiate connection</button>
+  <h1>id - <span id="id"></span></h1>
+  <h1>data - <span id="data"></span></h1>
+  <script>
+    var port, id, broker="http://localhost:9000";
+    const inputidbox = document.querySelector('#input_id');
+    // fetch('http://peerjstest11.herokuapp.com/peerjs/')
+
+    async function initiateConnection(id) {
+      port = await fetch(broker+'/port').then(response => response.json())
+      port = port.port;
+      if(id=="" || id===undefined) {
+        id = await fetch(broker+"/peerjs/key/id");
+        id = await id.text()
+      }
+      console.log(port + ' - ' + id);
+      let idbox = document.querySelector('#id');
+      let databox = document.querySelector('#data');
+      // const peer = new Peer('receiver', { host: 'http://peerjstest11.herokuapp.com/peerjs/', port: 9000, path: '/' })
+      const peer = new Peer(id, { host: 'localhost', port: port, path: '/peerjs' })
+      window.peer = peer;
+      idbox.textContent = id;
+      peer.on('connection', (conn) => {
+        conn.on('data', (data) => {
+          console.log(data);
+          bodybox.textContent = data;
+        })
+      })
+    }
+
+    document.querySelector('#initiate').onclick = () => {
+      initiateConnection(inputidbox.value);
+    }
+  </script>
+</body>
