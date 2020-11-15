@@ -7,7 +7,7 @@
   <h1>id - <span id="id"></span></h1>
   <h1>data - <span id="data"></span></h1>
   <script>
-    var port, id, broker="http://peerjstest11.herokuapp.com";//broker="http://localhost:9000";
+    var port, id, broker="http://localhost:7000";
     const inputidbox = document.querySelector('#input_id');
     // fetch('http://peerjstest11.herokuapp.com/peerjs/')
 
@@ -21,8 +21,8 @@
       console.log(port + ' - ' + id);
       let idbox = document.querySelector('#id');
       let databox = document.querySelector('#data');
-      // const peer = new Peer('receiver', { host: 'http://peerjstest11.herokuapp.com/peerjs/', port: 9000, path: '/' })
-      const peer = new Peer(id, { host: 'peerjstest11.herokuapp.com', port: port, path: '/peerjs' })
+      const peer = new Peer(id, { host: 'localhost', port: port, path: '/peerjs' })
+      // const peer = new Peer(id, { secure:true, host: 'peerjstest11.herokuapp.com', port: port, path: '/' })
       window.peer = peer;
 
       peer.on('error', (err) => {
