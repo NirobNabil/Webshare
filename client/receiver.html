@@ -7,24 +7,27 @@
   <h1>id - <span id="id"></span></h1>
   <h1>data - <span id="data"></span></h1>
   <script>
-    var port, id, broker="http://localhost:7000";
+    var port, id, broker="http://peerjstest11.herokuapp.com";
     const inputidbox = document.querySelector('#input_id');
     // fetch('http://peerjstest11.herokuapp.com/peerjs/')
 
     async function initiateConnection(id) {
-      port = await fetch(broker+'/port').then(response => response.json())
-      port = port.port;
-      if(id=="" || id===undefined) {
-        id = await fetch(broker+"/peerjs/key/id");
-        id = await id.text()
-      }
-      console.log(port + ' - ' + id);
+      // port = await fetch(broker+'/port').then(response => response.json())
+      // port = port.port;
+      // if(id=="" || id===undefined) {
+      //   id = await fetch(broker+"/peerjs/key/id");
+      //   id = await id.text()
+      // }
+      // console.log(port + ' - ' + id);
       let idbox = document.querySelector('#id');
       let databox = document.querySelector('#data');
-      const peer = new Peer(id, { host: 'localhost', port: port, path: '/peerjs' })
+      // const peer = new Peer(id, { host: 'peerjstest11.herokuapp.com', port: port, path: '/peerjs' })
+      const peer = new Peer(null, { secure:true,  host: 'peerjstest12.herokuapp.com', port: 443, path: '/' })
       // const peer = new Peer(id, { secure:true, host: 'peerjstest11.herokuapp.com', port: port, path: '/' })
       window.peer = peer;
-
+      peer.on('open', (e) => {
+        idbox.textContent = peer.id;
+      })
       peer.on('error', (err) => {
         console.log(err);
       })
@@ -33,7 +36,7 @@
         console.log("got connection")
         conn.on('data', (data) => {
           console.log(data);
-          bodybox.textContent = data;
+          databox.textContent = data;
         })
       })
     }

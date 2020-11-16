@@ -8,32 +8,36 @@
   <input id="message" />
   <button id="sendbutton">send</button>
   <script>
-    var port, id, broker="http://localhost:7000";
+    var port, id, broker="http://peerjstest11.herokuapp.com";
     const connectbutton = document.querySelector('#connectbutton');
     const r_id = document.querySelector('#r_id');
     const statusbox = document.querySelector('#status');
     // fetch('http://peerjstest11.herokuapp.com/peerjs/')
 
     async function initiateConnection(r_id, s_id) {
-      port = await fetch(broker+'/port').then(response => response.json())
-      port = port.port;
-      console.log(port);
-      if(s_id=="" || s_id===undefined) {
-        s_id = await fetch(broker+"/peerjs/key/id");
-        s_id = await s_id.text()
-      }
-      console.log(port + ' - ' + s_id);
+      // port = await fetch(broker+'/port').then(response => response.json())
+      // port = port.port;
+      // console.log(port);
+      // if(s_id=="" || s_id===undefined) {
+      //   s_id = await fetch(broker+"/peerjs/key/id");
+      //   s_id = await s_id.text()
+      // }
+      // console.log(port + ' - ' + s_id);
       let idbox = document.querySelector('#id');
       let messagebox = document.querySelector('#message');
       let sendbutton = document.querySelector('#sendbutton');
-      const peer = new Peer(s_id, { host: 'localhost', port: 7000, path: '/peerjs' })
+      // const peer = new Peer(s_id, { host: 'peerjstest11.herokuapp.com', port: port, path: '/peerjs' })
       // const peer = new Peer(s_id, { host: 'peerjstest11.herokuapp.com', port: port, path: '/' })
+      const peer = new Peer(null, { secure: true, host: 'peerjstest12.herokuapp.com', port: 443, path: '/' })
       
+      peer.on('open', (e) => {
+        idbox.textContent = peer.id;
+      })
       peer.on('error', (err) => {
+        console.log("peer error");
         console.log(err);
       })
-      console.log("after error");
-      idbox.textContent = s_id;
+      console.log("connecting with " + r_id)
       const conn = peer.connect(r_id)
       window.conn = conn;
       window.peer=peer;
@@ -42,6 +46,8 @@
         conn.send('hi!');
       })
       conn.on('error', (err) => {
+        alert("err")
+        console.log("conn error");
         console.log(err);
       })
 

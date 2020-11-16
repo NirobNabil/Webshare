@@ -19,7 +19,7 @@ const server = app.listen(process.env.PORT || 7000);
 const peerServer = ExpressPeerServer(server, {
   path: '/',
   allow_discovery: true,
-  expire_timeout: 20000,
+  expire_timeout: 5000,
   debug:1
 });
 
